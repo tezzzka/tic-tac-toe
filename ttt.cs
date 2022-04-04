@@ -16,10 +16,10 @@ namespace TIC_TAC_TOE
         static int flag = 0;
         static void Main(string[] args)
         {
-            Console.WriteLine("Let's play tic-tac-toe. Who is the first step's player? If you want to be a first player just skip this message OR you can put the action to AI typing 'ai' in console. What is your decision?");
+            Console.WriteLine("\nLet's play tic-tac-toe. Who is the first step's player? If you want to be a first player just skip by pressing any key this message OR you can put the action to AI typing 'yes' in console. What is your decision (yes/no)?\n");
             
             typd = Console.ReadLine();
-            if (typd == "ai") {
+            if (typd == "yes" || typd == "y" || typd == "YES") {
               player = 2;
             } else {
               player = 1; 
