@@ -16,10 +16,18 @@ namespace TIC_TAC_TOE
         static int flag = 0;
         static void Main(string[] args)
         {
+            Console.WriteLine("Let's play tic-tac-toe. Who is the first step's player? If you want to be a first player just skip this message OR you can put the action to AI typing 'ai' in console. What is your decision?");
+            
+            typd = Console.ReadLine();
+            if (typd == "ai") {
+              player = 2;
+            } else {
+              player = 1; 
+            }
+          
             do
             {
                 Console.Clear();
-                Console.WriteLine("You chance now. To change a first step's to ai, type `ai`...");
                 Console.WriteLine("\n");
                 if (player % 2 == 0)
                 {
@@ -27,16 +35,12 @@ namespace TIC_TAC_TOE
                 }
                 else
                 {
-                    Console.WriteLine("Player 1 Chance");
+                    Console.WriteLine("Player Chance");
                 }
                 Console.WriteLine("\n");
                 Board();// calling the board Function
-                typd = Console.ReadLine();
-                if (typd == "ai" || typd == "AI") {
-                  Console.WriteLine("AI Chance\n");
-                } else {
-                  choice = int.Parse(typd);
-                }
+                choice = int.Parse(Console.ReadLine());
+                
               //Taking users choice
                 // checking that position where user want to run is marked (with X or O) or not
                 if (arr[choice] != 'X' && arr[choice] != 'O')
