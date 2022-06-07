@@ -1,32 +1,33 @@
 using System;
 using System.Threading;
-namespace TIC_TAC_TOE
+using System.IO;
+
+namespace ttt_dev
 {
     class Program
     {
-        //making array and
-        //by default I am providing 0-9 where no use of zero
+        static char[] arr = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
         static int player = 1; 
         static int choice; 
         static int flag = 0;
-        static int times = 1;
-        static int limit = 10;
-        static int user1,user2,drw = 0;
+        static int times = 0;
+        static int limit = 3;
+        static int[] wins = {0,0,0}; 
+
         static void Main(string[] args)
         {
-            do {
-                char[] Xarr = new char[10]={ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-                player=1;
-                flag=0;
-                Console.Clear();
-                Board();
 
-                do {
-                    Console.Clear();// whenever loop will be again start then screen will be clear
-                    Console.WriteLine("Game is {0}/{1}",times,limit);
+            while (times < limit) {
+                for (int i=0;i<10;i++){
+                    arr[i]=(char)(i+48);
+                }
+
+                do
+                {
+                    Console.Clear();
                     Console.WriteLine("Player1:X and Player2:O");
-                    Console.WriteLine("\n");
-                    if (player % 2 == 0)//checking the chance of the player
+                    Console.WriteLine("Game {0}/{1}\n",times+1,limit);
+                    if (player % 2 == 0)
                     {
                         Console.WriteLine("Player 2 Chance");
                     }
@@ -35,12 +36,12 @@ namespace TIC_TAC_TOE
                         Console.WriteLine("Player 1 Chance");
                     }
                     Console.WriteLine("\n");
-                    Board();// calling the board Function
-                    choice = int.Parse(Console.ReadLine());//Taking users choice
-                    // checking that position where user want to run is marked (with X or O) or not
+                    Board();
+                    choice = int.Parse(Console.ReadLine());
+            
                     if (arr[choice] != 'X' && arr[choice] != 'O')
                     {
-                        if (player % 2 == 0) //if chance is of player 2 then mark O else mark X
+                        if (player % 2 == 0) 
                         {
                             arr[choice] = 'O';
                             player++;
@@ -52,43 +53,43 @@ namespace TIC_TAC_TOE
                         }
                     }
                     else
-                    //If there is any possition where user want to run
-                    //and that is already marked then show message and load board again
+   
                     {
                         Console.WriteLine("Sorry the row {0} is already marked with {1}", choice, arr[choice]);
                         Console.WriteLine("\n");
-                        Console.WriteLine("Please wait 2 second board is loading again.....");
                         Thread.Sleep(2000);
                     }
-                    flag = CheckWin();// calling of check win      
+                    flag = CheckWin();
                 }
                 while (flag != 1 && flag != -1);
-                // This loop will be run until all cell of the grid is not marked
-                //with X and O or some player is not win
-                Console.Clear();// clearing the console
-                Board();// getting filled board again
+                Console.Clear();
+                Board();
                 if (flag == 1)
-                // if flag value is 1 then someone has win or
-                //means who played marked last time which has win
+           
                 {
                     Console.WriteLine("Player {0} has won", (player % 2) + 1);
+                    wins[(player % 2) + 1]=wins[(player % 2) + 1]+1;
                 }
-                else// if flag value is -1 the match will be draw and no one is winner
+                else
                 {
                     Console.WriteLine("Draw");
-                    drw++;
+                    wins[2]=wins[2]+1;
                 }
-                times++;
                 Console.ReadLine();
+                times++;
+                
             }
-            while (times < 5);
-        }
+            Console.WriteLine("***********{0},{1},{2}",wins[0],wins[1],wins[2]);
+            Console.ReadLine();
 
-        private static void Post()
-        {
-            Console.WriteLine("FFFF");
+            StreamWriter f = new StreamWriter("game.txt");
+            f.WriteLine(wins[0]);
+            f.WriteLine(wins[1]);
+            f.WriteLine(wins[2]);
+            f.Close();
+            
         }
-        // Board method which creats board
+       
         private static void Board()
         {
             Console.WriteLine("     |     |      ");
@@ -101,38 +102,38 @@ namespace TIC_TAC_TOE
             Console.WriteLine("  {0}  |  {1}  |  {2}", arr[7], arr[8], arr[9]);
             Console.WriteLine("     |     |      ");
         }
-        //Checking that any player has won or not
+       
         private static int CheckWin()
         {
             #region Horzontal Winning Condtion
-            //Winning Condition For First Row
+           
             if (arr[1] == arr[2] && arr[2] == arr[3])
             {
                 return 1;
             }
-            //Winning Condition For Second Row
+         
             else if (arr[4] == arr[5] && arr[5] == arr[6])
             {
                 return 1;
             }
-            //Winning Condition For Third Row
+   
             else if (arr[6] == arr[7] && arr[7] == arr[8])
             {
                 return 1;
             }
             #endregion
             #region vertical Winning Condtion
-            //Winning Condition For First Column
+   
             else if (arr[1] == arr[4] && arr[4] == arr[7])
             {
                 return 1;
             }
-            //Winning Condition For Second Column
+         
             else if (arr[2] == arr[5] && arr[5] == arr[8])
             {
                 return 1;
             }
-            //Winning Condition For Third Column
+          
             else if (arr[3] == arr[6] && arr[6] == arr[9])
             {
                 return 1;
@@ -149,7 +150,7 @@ namespace TIC_TAC_TOE
             }
             #endregion
             #region Checking For Draw
-            // If all the cells or values filled with X or O then any player has won the match
+            
             else if (arr[1] != '1' && arr[2] != '2' && arr[3] != '3' && arr[4] != '4' && arr[5] != '5' && arr[6] != '6' && arr[7] != '7' && arr[8] != '8' && arr[9] != '9')
             {
                 return -1;
