@@ -11,7 +11,7 @@ namespace ttt_dev
         static int choice; 
         static int flag = 0;
         static int times = 0;
-        static int limit = 3;
+        static int limit = 10;
         static int[] wins = {0,0,0}; 
 
         static void Main(string[] args)
